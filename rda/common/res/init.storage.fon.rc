@@ -1,0 +1,21 @@
+on init
+    export EXTERNAL_STORAGE /mnt/sdcard
+    mkdir /fat 0700 root root
+    mkdir /mnt/sdcard 0000 system system
+    mkdir /mnt/sdcard2 0000 system system
+    # for backwards compatibility
+    symlink /mnt/sdcard /sdcard
+    symlink /mnt/sdcard /mnt/sdcard
+    symlink /mnt/sdcard /storage/sdcard0
+
+on fs
+    mount_all /fstab
+    rmdir  /cache/backup
+    rmdir  /cache/lost+found
+    rmdir  /cache
+    mkdir  /data/.cachelink 0776 system system  
+    symlink  /data/.cachelink  /cache
+    mkdir  /cache/backup 077 root root
+    mkdir /cache/lost+found 0770 root root
+    chown system cache /cache
+    mount yaffs2 mtd@fat /fat nosuid nodev

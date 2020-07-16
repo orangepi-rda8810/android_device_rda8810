@@ -1,0 +1,34 @@
+on init
+    mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
+    mkdir /mnt/media_rw/udisk 0700 media_rw media_rw
+
+    mkdir /storage/sdcard0 0700 root root
+    mkdir /storage/udisk 0700 root root
+    mkdir /storage/emulated 0777 root root
+
+    # for backwards compatibility
+    symlink /storage/sdcard0 /mnt/sdcard
+    symlink /mnt/sdcard /sdcard
+    symlink /storage/udisk /mnt/udisk
+    symlink /mnt/udisk /udisk
+    symlink /storage/sdcard0 /storage/emulated/legacy
+    export EXTERNAL_STORAGE /storage/sdcard0
+
+on fs
+    mount_all /fstab
+    swapon_all /fstab
+    rmdir  /cache/backup
+    rmdir  /cache/lost+found
+    rmdir  /cache
+    mkdir  /data/.cachelink 0770 system cache
+    mkdir  /data/.cachelink/backup 0770 system cache
+    mkdir  /data/.cachelink/lost+found 0770 root root
+    symlink  /data/.cachelink  /cache
+
+service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
+    class late_start
+    disabled
+
+service fuse_udisk /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/udisk /storage/udisk
+    class late_start
+    disabled

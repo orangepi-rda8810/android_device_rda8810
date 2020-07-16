@@ -1,0 +1,9 @@
+
+//#define WLAN_USE_CRYSTAL // if use share crystal should close this
+#define WLAN_USE_DCDC  // if use LDO mode, should close this
+//#define WLAN_FOR_CTA		// if need pass CTA authenticate, should open this define
+#define CHINA_VERSION   // Low snr agc setting
+
+#define COMBO_WITH_26MHZ
+
+#define I2C_DELAY_FLAG 0xFFFF

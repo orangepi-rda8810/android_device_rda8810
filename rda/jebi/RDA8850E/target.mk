@@ -1,0 +1,5 @@
+TARGET_BOARD_PLATFORM := rda8850e
+
+# Enable Widevine DRM
+BOARD_SUPPORT_WIDEVINE_DRM := true
+

@@ -1,0 +1,11 @@
+# mount point	fstype		device
+
+/dev/block/platform/rda-mmc.2/by-name/vendor /vendor ext4 rw wait
+/dev/block/platform/rda-mmc.2/by-name/system /system ext4 ro wait
+/dev/block/platform/rda-mmc.2/by-name/userdata /data ext4 rw wait,check
+/dev/block/mmcblk1p1    /sdcard   vfat    rw   wait
+
+bootloader /bootloader	mtd		bootloader   wait
+boot		/boot mtd		boot   wait
+recovery	/recovery mtd		recovery   wait
+modem		/modem mtd		modem   wait

@@ -1,0 +1,2 @@
+TARGET_BOARD_PLATFORM := rda8810
+MODEM_TYPE := dualmode-2g

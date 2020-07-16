@@ -1,0 +1,9 @@
+on early-boot
+    insmod /vendor/driver/rda_headset.ko
+    insmod /vendor/modules/galcore.ko registerMemBase=0x20080000 irqLine=25 baseAddress=0x80000000 showArgs=1
+    insmod /vendor/modules/vpu.ko
+    insmod /vendor/modules/voc.ko
+    insmod /vendor/driver/rda_ts.ko
+    insmod /vendor/driver/rda_gs.ko
+    insmod /vendor/driver/rda_ls.ko
+    insmod /vendor/driver/rda_cam_sensor.ko

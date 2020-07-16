@@ -1,0 +1,109 @@
+#
+# system.prop
+#
+
+# RIL and telephony related settings 
+rild.libpath=/system/lib/libreference-ril.so
+
+#Wake lock timeout(ms) should be longer than the longest timeout in AT command
+ro.ril.wake_lock_timeout=120000
+
+#Set LCD density, HVGA: 160, WVGA: 240
+ro.sf.lcd_density=240
+
+#Set to "yes" for low-end smart phone,disable animate
+ro.DontUseAnimate=yes
+
+dalvik.vm.checkjni=false
+
+dalvik.vm.jit.codecachesize=0
+
+dalvik.vm.heapstartsize=3m
+dalvik.vm.heapgrowthlimit=64m
+dalvik.vm.heapsize=128m
+dalvik.vm.heaptargetutilization=0.75
+
+service.memclear.enable=1
+ro.disk.swap.support=0
+disk.swap.disksize=32
+service.memclear.level=1
+
+ro.set.minfree.support=1
+lowmemorykiller.adj=0,1,3,5,9,15
+lowmemorykiller.minfree=1024,1024,2462,3569,4676,6766
+
+#speed up apk install
+dalvik.vm.dexopt-flags=v=n,o=n
+
+#Set the emergency num to ecclist
+ril.ecclist = 112,110,119,911,999
+
+#Set to disable the cache for view(reduce memory usage),the valid value is -1,0,1 and default is 1
+ro.DisableViewCache=0
+
+#Set the RecentApp mode,the valid value is 0,1,2
+#1:enable and use default recent app
+#2:enable and use mini recent app(like miui). --reduce momory,no thumbnail--
+#0:disable recent app. --reduce memory--
+ro.recentMode=2
+
+#disable zygote preload class and resource
+#0:don't disable(enable preload class and resource)
+#1:disable all preload
+#2:just disable preload resource
+ro.zygote.preload.disable=0
+
+#Use RGB_565 and Sample for wallpaper, reduce memory for phone product(don't use for tablet)
+ro.trim.memory.wallpaper=1
+
+#Use RGB_565 for launcher's AppsCustomizePagedView,reduce memory for low end device
+ro.trim.memory.launcher=1
+
+#Limit font cache to 32KB,the Default is 780KB ~ 2MB
+ro.trim.memory.font_cache=1
+
+#Reduce EGL TextureCache to 1 pages pixels(480x800x4x2)
+#32bit*5*fullscreen
+ro.hwui.texture_cache_size=1.8
+#32bit*4*fullscreen
+ro.hwui.layer_cache_size=1.8
+#8bit*2*fullscreen
+ro.hwui.drop_shadow_cache_size=0.3
+ro.hwui.gradient_cache_size=0.5
+#32bit*1*fullscreen
+ro.hwui.path_cache_size=0.6
+#8bit*2*fullscreen
+ro.hwui.r_buffer_cache_size=0.3
+#8bit*1*fullscreen
+ro.hwui.shape_cache_size=0.15
+
+
+#don't start unused service("Dock Observer","Serial Service","DiskStats Service","SamplingProfiler Service")
+#reduce system_service memory
+ro.service.remove_unused=1
+
+config.disable_consumerIr=true
+config.disable_wifip2p=true
+config.disable_nsd=true
+config.disable_serialPort=true
+config.disable_dongle=true
+config.disable_diskstats=true
+config.disable_samplingProfile=true
+config.disable_printService=false
+config.disable_NfcService=true
+config.disable_DropBox=true
+
+ro.config.low_ram=true
+ro.disable.ExplicitGC=true
+#log.redirect-stdio=true
+
+# disable vsync
+#debug.choreographer.vsync=false
+
+#persist.dontcheck.calib=1
+
+ro.build.product.lowmem=1
+persist.sys.lowcost=1
+media.stagefright.use-awesome=1
+
+ro.multidex.switch=true

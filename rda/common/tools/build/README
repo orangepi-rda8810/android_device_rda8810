@@ -1,0 +1,9 @@
+tool for building the RDA product bin
+
+usage:
+cd device/rda/common/tools/build/
+mm
+build_product.sh
+
+you can modify product.cfg to config the images for download,
+such as download number, packet size....

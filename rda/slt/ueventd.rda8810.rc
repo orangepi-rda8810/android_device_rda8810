@@ -1,0 +1,17 @@
+# dev properties
+/dev/graphics/galcore       0666   system    system
+/dev/vpu                    0666   system    system
+/dev/voc                    0666   system    system
+/dev/video0                 0666   system    system
+/dev/rda5888                0666   system    system
+
+
+# sysfs properties
+/sys/devices/virtual/input/input*   enable           0660  system   system
+/sys/devices/virtual/input/input*   driver/enable    0660  system   system
+/sys/devices/virtual/input/input*   poll             0660  system   system
+/sys/devices/virtual/input/input*   min              0660  system   system
+/sys/devices/virtual/input/input*   max              0660  system   system
+/sys/devices/virtual/tty/modem1     bootlogo         0660  system   system
+/sys/devices/platform/rda-wlan      enabled          0660  system   system
+/dev/i2c-2                 0660  system   system

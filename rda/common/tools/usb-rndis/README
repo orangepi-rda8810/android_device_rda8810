@@ -1,0 +1,23 @@
+These are tools to open usb rndis
+usage:
+1.push reslov.conf to /etc/ usb adb
+  If error info like "Read-only file system", please run the following commands
+  $adb shell
+  $su
+  $mount -o remount,rw /system
+  then exit adb shell, push reslov.conf to /etc/
+  If error info like "failed to copy 'resolv.conf' to '/etc/resolv.conf': Permission denied"
+  Please run 'adb root', then run 'adb push'
+2.make sure the phone open data connection and connect to the Internet
+3.push usb_rndis.sh to /data usb adb
+4.adb shell "su -c 'sh /data/usb_rndis.sh'"
+  or
+  $adb shell
+  $cd /data
+  $su
+  $chmod 777 usb_rndis.sh
+  $./usb_rndis.sh
+
+Note:
+If wlan is open, data connection is not connected, replace "nameserver 221.130.33.52" in resolv.conf
+with "nameserver 10.102.1.23" and replace "ppp0" in usb_rndis.sh with "wlan0".

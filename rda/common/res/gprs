@@ -1,0 +1,19 @@
+#/dev/ttyMux1
+#/dev/ttyS2
+115200
+nolock 
+modem
+debug
+nocrtscts  ##流控
+nodetach ##在前台运行,如果要在后台运行则去掉该项
+noauth
+usepeerdns ##使用DNS,否则还得自己去改/etc/resolv.conf文件
+#noipdefault
+#ipcp-accept-local
+#ipcp-accept-remote
+#0.0.0.0:0.0.0.0
+defaultroute
+#noccp
+user '' ##必须有，因为不像windows下可以不需要用户名
+connect '/system/bin/chat -s -v -f /etc/ppp/chat-gprs-connect'
+debug  #/var/log/messages

@@ -1,0 +1,48 @@
+﻿一. 整体介绍
+主要修改两个文件里的代码
+1.kernel/drivers/rdacombodev/*
+2.kernel/drivers/net/wireless/rdaw80211/rdawlan/*
+
+之前的数据都是通过数组保存在.h或者.c源代码中，我把其中的数组拿出来在按照一定的格式放在rda_combo.bin和rda_wland.bin两个文件当中，bin文件放在/system/etc/firmware下面，模块启动需要数据的时候通过firmware机制获取bin文件中的数据，并写到相应的硬件当中。
+
+之前程序通过数组名访问数据(const unsigned int wifi_core_patch_data_32_90_D[][2] ={,,,} )，现在数组名称没变，只是数组名变成了一个标记字符串写入bin文件，程序通过该字符串在bin文件中得到所需要的数据。
+
+二.bin文件生成方法
+解压附件rda_firmware.zip,在windows系统中运行rda_firmware.exe按提示输入“1”或者“2”即可生成rda_wland.bin或者rda_combo.bin
+数据文件和配置文件分别放在rda_wland和rda_combo两个子文件夹内，生成的bin文件也在相应的文件夹内。
+bin文件中存放的有数据的name,size,data等信息
+
+三.数据文件规则（以rda_wland为例）
+1.rda_wland_cfg.ini为配置文件
+其中
+    [file_name] input_name定义了数据的输入文件，支持最多10个文件输入，中间以空格分开（最长400个字符）
+    [file_name] output_file_name定义了输出文件名，默认为rda_wland.bin
+
+		[data_chip_version]保存数据名对应的芯片类型，芯片类型由rda_firmware.h中宏定义相关联。与驱动源代码中chip_version宏定义相同
+
+2.数据文件
+只需要把原来的数组整体复制到数据文件中即可，基本不用修改。
+
+[static] [const] {data_type} data_name[][2] = {//((该大括号必须要,可以放在该行，也可以单独一行))
+{0x...., 0x....},
+{0x...., 0x....},
+}//(该大括号必须要,且只能单独放一行)
+
+static, const可有可无
+data_type支持：u32, u16，u8，unsigned，unsigned int，unsigned short， unsigned char， int, short, char 
+data_name为数据名，不可重复
+
+2.1数据文件只支持"//"作为注释符
+2.2数据文件支持宏定义
+#define NORMAL_FIXED
+数据文件支持宏编译选项：(支持嵌套宏编译选项)
+#if 1
+#if 0
+#ifdef []
+#else
+#elif define []
+#enfif
+2.3数据文件不支持
+#define DELAY_MS(x) {I2C_DELAY_FLAG, x}, 
+所以数据中"DELAY_MS(1)"需要修改为：“ {I2C_DELAY_FLAG, 1},”
+

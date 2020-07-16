@@ -1,0 +1,61 @@
+#ifndef __TGT_AP_FLASH_PARTS_H__
+#define __TGT_AP_FLASH_PARTS_H__
+
+#define MTDPARTS_DEF			\
+		"9M@0(bootloader),"	\
+		"12M(factorydata),"	\
+		"12M(misc),"	        \
+		"15M(modem),"		\
+		"15M(boot),"		\
+		"21M(recovery),"		\
+		MTDPARTS_ANDROID_DEF
+
+#define MTDPARTS_ANDROID_DEF		\
+		"240M(system),"		\
+		"267M(vendor),"     \
+		"-(userdata)"
+
+/*
+kernel  need handle mtd from 0, so define a dummy partions whose
+size is bootloader+factorydata+modem+boot+recovery
+*/
+#define MTDPARTS_KERNEL_DEF		\
+		"84M@0(dummy),"		\
+		MTDPARTS_ANDROID_DEF
+#endif
+
+#define __TGT_AP_FLASH_USE_PART_OF_PAGE__   1
+
+/*pagesize = (1 << __TGT_AP_FLASH_LOGIC_PAGE_SHIFT__) * __TGT_AP_FLASH_LOGIC_PAGE_SIZE_N_KB__*/
+#define __TGT_AP_FLASH_USE_4KAS2K_PAGE_DIV__    2
+#define __TGT_AP_FLASH_USE_4KAS3K_PAGE_DIV__    3
+#define __TGT_AP_FLASH_USE_8KAS6K_PAGE_DIV__    6
+#define __TGT_AP_FLASH_USE_8KAS4K_PAGE_DIV__    4
+#define __TGT_AP_FLASH_USE_8KAS8K_PAGE_DIV__    8
+#define __TGT_AP_FLASH_USE_16KAS8K_PAGE_DIV__   8
+#define __TGT_AP_FLASH_USE_16KAS12K_PAGE_DIV__  12
+#define __TGT_AP_FLASH_LOGIC_PAGE_SIZE_N_KB__ __TGT_AP_FLASH_USE_16KAS12K_PAGE_DIV__
+#define __TGT_AP_FLASH_LOGIC_PAGE_SHIFT__   10
+
+/*blocksize = (1 << __TGT_AP_FLASH_LOGIC_BLOCK_SHIFT__) * __TGT_AP_FLASH_LOGIC_BLOCK_SIZE_N_KB__*/
+#define __TGT_AP_FLASH_USE_4KAS2K_BLOCK_DIV__    8
+#define __TGT_AP_FLASH_USE_4KAS3K_BLOCK_DIV__    12
+#define __TGT_AP_FLASH_USE_8KAS6K_BLOCK_DIV__    24
+#define __TGT_AP_FLASH_USE_8KAS4K_BLOCK_DIV__    16
+#define __TGT_AP_FLASH_USE_8KAS8K_BLOCK_DIV__    32
+#define __TGT_AP_FLASH_USE_16KAS8K_BLOCK_DIV__   32
+#define __TGT_AP_FLASH_USE_16KAS12K_BLOCK_DIV__  48
+#define __TGT_AP_FLASH_LOGIC_BLOCK_SIZE_N_KB__ __TGT_AP_FLASH_USE_16KAS12K_BLOCK_DIV__
+#define __TGT_AP_FLASH_LOGIC_BLOCK_SHIFT__   16
+
+/*chip size right shift 26 bit, 64Mbytes unit*/
+/*chipsize = (1 << __TGT_AP_FLASH_LOGIC_CHIP_SHIFT_GB__) * __TGT_AP_FLASH_LOGIC_CHIP_SHIFT_DIV__*/
+#define __TGT_AP_FLASH_LOGIC_CHIP_4KAS2K_SHIFT_DIV__ 32
+#define __TGT_AP_FLASH_LOGIC_CHIP_4KAS3K_SHIFT_DIV__ 48
+#define __TGT_AP_FLASH_LOGIC_CHIP_8KAS6K_SHIFT_DIV__ 48
+#define __TGT_AP_FLASH_LOGIC_CHIP_8KAS4K_SHIFT_DIV__ 32
+#define __TGT_AP_FLASH_LOGIC_CHIP_8KAS8K_SHIFT_DIV__ 64
+#define __TGT_AP_FLASH_LOGIC_CHIP_16KAS8K_SHIFT_DIV__ 32
+#define __TGT_AP_FLASH_LOGIC_CHIP_16KAS12K_SHIFT_DIV__ 48
+#define __TGT_AP_FLASH_LOGIC_CHIP_SHIFT_DIV__ __TGT_AP_FLASH_LOGIC_CHIP_16KAS12K_SHIFT_DIV__
+#define __TGT_AP_FLASH_LOGIC_CHIP_SHIFT_GB__ 26

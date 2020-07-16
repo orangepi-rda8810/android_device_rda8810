@@ -1,0 +1,2 @@
+TARGET_BOARD_PLATFORM := rda8850e
+MODEM_TYPE := dualmode-3g

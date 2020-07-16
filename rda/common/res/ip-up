@@ -1,0 +1,54 @@
+#!/system/bin/sh
+#
+# This script is run by the pppd after the link is established.
+# It uses run-parts to run scripts in /etc/ppp/ip-up.d, so to add routes,
+# set IP address, run the mailq etc. you should create script(s) there.
+#
+# Be aware that other packages may include /etc/ppp/ip-up.d scripts (named
+# after that package), so choose local script names with that in mind.
+#
+# This script is called with the following arguments:
+#    Arg  Name                          Example
+#    $1   Interface name                ppp0
+#    $2   The tty                       ttyS1
+#    $3   The link speed                38400
+#    $4   Local IP number               12.34.56.78
+#    $5   Peer  IP number               12.34.56.99
+#    $6   Optional ``ipparam'' value    foo
+
+/system/bin/log -t pppd "ppp/ip-up script started IFNAME=$IFNAME"
+
+PREFIX=$IFNAME
+
+# These variables are for the use of the scripts run by run-parts
+PPP_IFACE="$1"
+PPP_TTY="$2"
+PPP_SPEED="$3"
+PPP_LOCAL="$4"
+PPP_REMOTE="$5"
+PPP_IPPARAM="$6"
+export PPP_IFACE PPP_TTY PPP_SPEED PPP_LOCAL PPP_REMOTE PPP_IPPARAM
+
+/system/bin/setprop "net.interfaces.defaultroute" "gprs"
+/system/bin/setprop "net.$PREFIX.dns1" "$DNS1"
+/system/bin/setprop "net.$PREFIX.dns2" "$DNS2"
+/system/bin/setprop "net.$PREFIX.local-ip" "$PPP_LOCAL"
+/system/bin/setprop "net.$PREFIX.remote-ip" "$PPP_REMOTE"
+/system/bin/setprop "net.$PREFIX.gw" "$PPP_REMOTE"
+/system/bin/setprop "net.$PREFIX.ifname" "$IFNAME"
+/system/bin/setprop "net.$PREFIX.devname" "$PPP_TTY"
+/system/bin/setprop "net.$PPP_TTY.status" "ok"
+/system/bin/setprop "net.$PPP_TTY.ifname" "$PREFIX"
+
+/system/bin/log -t pppd "Using prefix $PREFIX"
+/system/bin/log -t pppd "IP-UP TRACE for gprs"
+/system/bin/log -t pppd "net.$PREFIX.dns1 $DNS1"
+/system/bin/log -t pppd "net.$PREFIX.dns2 $DNS2"
+/system/bin/log -t pppd "local-ip $PPP_LOCAL"
+/system/bin/log -t pppd "remote-ip $PPP_REMOTE"
+/system/bin/log -t pppd "gw $PPP_REMOTE"
+/system/bin/log -t pppd "IP-UP END TRACE for gprs"
+/system/bin/log -t pppd "net.$PPP_TTY.status ok"
+/system/bin/log -t pppd "net.$PREFIX.devname $PPP_TTY"
+
+/system/bin/log -t pppd "ppp/ip-up script ended"

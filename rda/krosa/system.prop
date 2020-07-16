@@ -1,0 +1,58 @@
+#
+# system.prop
+#
+
+# RIL and telephony related settings 
+rild.libpath=/system/lib/libreference-ril.so
+
+#Wake lock timeout(ms) should be longer than the longest timeout in AT command
+ro.ril.wake_lock_timeout=120000
+
+#Set LCD density, HVGA: 160, WVGA: 240
+ro.sf.lcd_density=240
+
+#Set to "yes" for low-end smart phone,disable animate
+ro.DontUseAnimate=yes
+
+dalvik.vm.checkjni=false
+
+dalvik.vm.jit.codecachesize=0
+
+dalvik.vm.heapstartsize=3m
+dalvik.vm.heapgrowthlimit=64m
+dalvik.vm.heapsize=128m
+dalvik.vm.heaptargetutilization=0.75
+
+service.memclear.enable=1
+ro.disk.swap.support=0
+disk.swap.disksize=32
+service.memclear.level=1
+
+ro.set.minfree.support=1
+lowmemorykiller.adj=0,1,3,5,9,15
+lowmemorykiller.minfree=1024,1024,2462,3569,4676,6766
+
+#speed up apk install
+dalvik.vm.dexopt-flags=v=n,o=n
+
+#Set the emergency num to ecclist
+ril.ecclist = 112,110,119,911,999
+
+#Set to disable the cache for view(reduce memory usage),the valid value is -1,0,1 and default is 1
+ro.DisableViewCache=1
+
+#Set the RecentApp mode,the valid value is 0,1,2
+#1:enable and use default recent app
+#2:enable and use mini recent app(like miui). --reduce momory,no thumbnail--
+#0:disable recent app. --reduce memory--
+ro.recentMode=0
+
+#1 to disable zygote preload class and resource
+ro.zygote.preload.disable=0
+
+#log.redirect-stdio=true
+
+ro.build.product.lowmem=1
+persist.sys.lowcost=1
+
+ro.multidex.switch=true

@@ -1,0 +1,39 @@
+#
+# system.prop
+#
+
+# RIL and telephony related settings 
+rild.libpath=/system/lib/libreference-ril.so
+
+#Wake lock timeout(ms) should be longer than the longest timeout in AT command
+ro.ril.wake_lock_timeout=120000
+
+#Set LCD density, HVGA: 160, WVGA: 240
+#ro.sf.lcd_density=160
+
+
+dalvik.vm.checkjni=false
+dalvik.vm.jit.codecachesize=0
+
+dalvik.vm.heapstartsize=16m
+dalvik.vm.heapgrowthlimit=64m
+dalvik.vm.heapsize=128m
+
+service.memclear.enable=0
+
+#speed up apk install
+dalvik.vm.dexopt-flags=v=n,o=n
+
+#Set the emergency num to ecclist
+ril.ecclist = 112,110,119,911,999
+ro.config.low_ram=true
+ro.recentMode=2
+
+# disable vsync
+# debug.choreographer.vsync=false
+
+org.certificates.enable=true
+
+org.disable.appblacklist=true
+
+ro.cts.workround=1

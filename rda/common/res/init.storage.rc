@@ -1,0 +1,17 @@
+on init
+    # Support legacy paths
+    symlink /sdcard /mnt/sdcard
+    # By default, primary storage is physical
+    setprop ro.vold.primary_physical 1
+
+on fs
+    mount_all /fstab
+    swapon_all /fstab
+    rmdir  /cache/backup
+    rmdir  /cache/lost+found
+    rmdir  /cache
+    mkdir  /data/.cachelink 0770 system cache
+    mkdir  /data/.cachelink/backup 0770 system cache
+    mkdir  /data/.cachelink/lost+found 0770 root root
+    symlink  /data/.cachelink  /cache
+

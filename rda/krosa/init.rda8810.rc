@@ -1,0 +1,202 @@
+import init.ril.rc
+import init.rda.usb.rc
+import init.storage.rc
+import oem_driver.rc
+
+on post-fs-data
+    symlink /system/opl /opl
+    mkdir /data/misc/vpn/profiles 0770 system system
+    mkdir /data/misc/sensors 0777 system system
+
+    setprop wifi.interface wlan0
+    # wifi
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    mkdir /data/misc/wpa_supplicant 0770 wifi wifi
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
+    chown dhcp dhcp /data/misc/dhcp
+   
+on init
+    mkdir /vendor 0770 system system
+
+on boot
+    setprop ARGH ARGH
+    setprop ro.build.product ${ro.hardware}
+    setprop ro.product.device ${ro.hardware}
+    mount debugfs debugfs /sys/kernel/debug rw,mode=755
+    write /sys/kernel/mm/ksm/pages_to_scan 100
+    write /sys/kernel/mm/ksm/sleep_millisecs 500
+    write /sys/kernel/mm/ksm/run 1
+    write /proc/sys/vm/page-cluster 0
+    write /proc/sys/vm/vfs_cache_pressure 100
+    write /proc/sys/vm/swappiness 100
+    write /proc/sys/vm/dirty_ratio 5
+    write /proc/sys/vm/dirty_background_ratio 5
+    write /proc/sys/vm/admin_reserve_kbytes 0
+    write /proc/sys/vm/user_reserve_kbytes 0
+
+    # gpu
+    # chmod 0777 /dev/graphics/galcore
+    chmod 0666 /dev/graphics/fb0
+    # vpu
+    export OMX_BELLAGIO_REGISTRY /system/etc/.omxregister
+    # chmod 0777 /dev/vpu
+
+    # ion
+    chmod 666 /dev/ion
+    chown system system /dev/ion
+
+    # camera
+    # chmod 0666 /dev/video0
+
+    # atv
+    # chmod 0666 /dev/rda5888
+
+    # wifi & bt
+    chmod 0666 /dev/rdacombo
+    chmod 0666 /dev/ttyS1
+    chmod 0666 /dev/rfkill
+    chown bluetooth net_bt_stack /data/misc/bluetooth
+    chmod 0666 /dev/rdafmRadio
+
+    #light,proximity and accelerator sensor
+    # chown system system /sys/class/input/input1/driver/enable
+    # chown system system /sys/class/input/input2/driver/enable
+    # chown system system /sys/class/input/input3/poll
+    # chown system system /sys/class/input/input3/enable
+    # chown system system /sys/class/input/input3/min
+    # chown system system /sys/class/input/input3/max
+
+    chown system system /sys/devices/platform/vdec/enabled
+    chown system system /sys/devices/platform/rda-fb/enabled
+    chown system system /sys/devices/platform/rda-gouda/enabled
+    chown system system /sys/devices/virtual/input/input2/driver/enabled
+    chown system system /sys/devices/platform/rda-headset.0/enabled
+
+    mkdir /data/local/tmp/xlog 0777
+
+on property:ro.debuggable=1
+    write /sys/module/kgdboc/parameters/kgdboc ttyS0
+
+# turn on and turn off Wi-Fi
+    write /sys/class/rfkill/rfkill0/state 1
+    write /sys/class/rfkill/rfkill0/state 0
+
+on property:init.svc.wpa_supplicant=stopped
+    stop dhcpcd_wlan0
+
+service androidlogonsd /system/xbin/androidlogonsd.sh
+    class main
+    disabled
+
+#service oemdriverinstall /vendor/bin/oem_driver.sh
+#    class main
+#    oneshot
+
+###############################################################
+# redirect logs(LOGE, LOGI...) to linux console
+###############################################################
+service logcat /system/bin/logcat -f /dev/kmsg *:W
+    disabled
+    oneshot
+
+service bootlogo /system/bin/bootlogo /system/media/bootlogo
+    user root
+    oneshot
+
+service swapd /system/xbin/createswap.sh
+    class main
+    oneshot
+    seclabel u:r:swapd:s0
+
+service mountcache /system/xbin/mountcache.sh
+    disabled
+    oneshot
+
+service unmountcache /system/xbin/unmountcache.sh
+    disabled
+    oneshot
+
+service multidex /system/xbin/multidex.sh
+    disabled
+    oneshot
+
+service fatd /system/xbin/createfat.sh
+    class main
+    oneshot
+
+service gsmMuxd /system/bin/gsmMuxd -m basic -s /dev/modem0 -l /dev/ttyMux -b 115200 -n 8 -f 2047
+    class main
+    user root
+    group radio cache inet misc audio sdcard_rw log system
+    seclabel u:r:gsmMuxd:s0
+
+service ril_ctl  /system/bin/logwrapper  /system/bin/ril_ctl
+    class main
+    user root
+    seclabel u:r:ril_ctl:s0
+
+service wpa_supplicant /system/bin/wpa_supplicant \
+    -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf -dd \
+    -g@android:wpa_wlan0
+    class main
+    socket wpa_wlan0 dgram 660 wifi wifi
+    disabled
+    oneshot
+
+service dhcpcd_wlan0 /system/bin/logwrapper /system/bin/dhcpcd -A -dd
+    class main
+    disabled
+    oneshot
+
+service iprenew_wlan0 /system/bin/logwrapper /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+
+#Do not need on Android4.2
+#service hciattach /system/bin/logwrapper /system/bin/hciattach -n -s 115200 /dev/ttyS1 rda 115200 noflow
+#     user bluetooth
+#     disabled
+#     oneshot
+
+#service hfag /system/bin/sdptool add --channel=10 HFAG
+#    user bluetooth
+#    group bluetooth net_bt_admin
+#    disabled
+#    oneshot
+
+#service hsag /system/bin/sdptool add --channel=11 HSAG
+#    user bluetooth
+#    group bluetooth net_bt_admin
+#    disabled
+#    oneshot
+
+#service opush /system/bin/sdptool add --channel=12 OPUSH
+#    user bluetooth
+#    group bluetooth net_bt_admin
+#    disabled
+#    oneshot
+
+#service pbap /system/bin/sdptool add --channel=19 PBAP
+#    user bluetooth
+#    group bluetooth net_bt_admin
+#    disabled
+#    oneshot
+
+
+service preinstall /system/bin/sh /system/bin/preinstall.sh
+    user root
+    group root
+    disabled
+    oneshot
+
+service apanic /system/bin/sh /system/bin/init.apanic.sh
+    user root
+    group root
+    disabled
+    oneshot
+
+on property:sys.boot_completed=1
+    start preinstall
+    start apanic
+

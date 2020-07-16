@@ -1,0 +1,24 @@
+TARGET_CPU_ABI := armeabi-v7a
+TARGET_CPU_ABI2 := armeabi
+TARGET_ARCH := arm
+TARGET_CPU_SMP := false
+TARGET_ARCH_VARIANT := armv7-a-neon
+ARCH_ARM_HAVE_TLS_REGISTER := true
+TARGET_CPU_VARIANT := cortex-a7
+
+
+# config u-boot
+TARGET_NO_BOOTLOADER := false
+UBOOT_DEFCONFIG := rda8850e
+
+# config kernel
+TARGET_NO_KERNEL := false
+ifeq ($(TARGET_BUILD_VARIANT),user)
+KERNEL_DEFCONFIG := rda8850e-rel_defconfig
+else
+KERNEL_DEFCONFIG := rda8850e_defconfig
+endif
+USES_UNCOMPRESSED_KERNEL := false
+BOARD_KERNEL_BASE := 0x80000000
+#BOARD_KERNEL_CMDLINE := console=ttyS1,115200n8 mem=256M
+

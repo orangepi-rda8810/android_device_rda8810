@@ -1,0 +1,12 @@
+on early-init
+    setprop rild.libargs -d\ /dev/ttyMux0
+    setprop rild.libargs.sim2 -d\ /dev/ttyMux4
+
+on boot
+service ril-daemon1 /system/bin/rild -d
+    class main
+    socket rild1 stream 660 root radio
+    socket rild-debug1 stream 660 radio system
+    user root
+    group radio cache inet misc audio system log
+

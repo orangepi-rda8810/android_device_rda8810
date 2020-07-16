@@ -1,0 +1,16 @@
+on early-boot
+    insmod /vendor/driver/rda_headset.ko
+
+    #insmod /vendor/modules/ump.ko ump_debug_level=15 ump_backend=1
+    #insmod /vendor/modules/ump.ko ump_backend=1
+    #insmod /vendor/modules/ump.ko ump_debug_level=15 ump_backend=0 ump_memory_address=0x9e000000 ump_memory_size=0x02000000
+
+    #insmod /vendor/modules/mali.ko mali_debug_level=15 mali_dedicated_mem_start=0 mali_dedicated_mem_size=0 mali_shared_mem_size=0xC000000
+    insmod /vendor/modules/mali.ko mali_dedicated_mem_start=0 mali_dedicated_mem_size=0 mali_shared_mem_size=0xDA00000
+    # insmod /vendor/modules/mali.ko mali_debug_level=15 mali_dedicated_mem_start=0x9c000000 mali_dedicated_mem_size=0x02000000 mali_shared_mem_size=0x20000000
+
+    insmod /vendor/modules/vpu.ko
+    insmod /vendor/modules/jpu.ko
+    insmod /vendor/driver/rda_ts.ko
+    insmod /vendor/driver/rda_ls.ko
+    insmod /vendor/driver/rda_cam_sensor.ko

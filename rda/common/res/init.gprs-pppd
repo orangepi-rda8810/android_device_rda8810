@@ -1,0 +1,28 @@
+#!/system/bin/sh
+# An unforunate wrapper script
+# so that the exit code of pppd may be retrieved
+
+# this is a workaround for issue #651747
+#trap "/system/bin/sleep 1;exit 0" TERM
+
+PPPD_PID=
+
+/system/bin/setprop "net.gprs.ppp-exit" ""
+
+/system/bin/log -t pppd "######## Starting pppd"
+
+PPPD_ARGS=`/system/bin/getprop net.gprs.ppp-args`
+
+/system/bin/log -t pppd "######## pppd additional arguments $PPPD_ARGS"
+
+#/system/bin/pppd /dev/ttyS2 115200 modem linkname ppp0 user "" persist defaultroute noipdefault usepeerdns nodetach nocrtscts noauth debug noccp novj maxfail 1 0.0.0.0:0.0.0.0 connect "/system/bin/chat -s -v -f /etc/ppp/chat-gprs-connect"
+/system/bin/pppd /dev/ttyS2 115200 modem user "" persist defaultroute noipdefault usepeerdns nodetach nocrtscts noauth debug noccp novj maxfail 1 0.0.0.0:0.0.0.0 connect "/system/bin/chat -s -v -f /etc/ppp/chat-gprs-connect"
+#/system/bin/pppd /dev/ttyS2 115200 nolock modem debug user "" defaultroute usepeerdns nodetach nocrtscts noauth connect "/system/bin/chat -s -v -f /etc/ppp/chat-gprs-connect"
+
+
+PPPD_EXIT=$?
+PPPD_PID=$!
+
+/system/bin/log -t pppd "######### pppd exited with $PPPD_EXIT"
+/system/bin/setprop "net.gprs.ppp-pid" "$PPPD_PID"
+/system/bin/setprop "net.gprs.ppp-exit" "$PPPD_EXIT"

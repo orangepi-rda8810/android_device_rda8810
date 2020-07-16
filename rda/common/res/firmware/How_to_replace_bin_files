@@ -1,0 +1,11 @@
+﻿修改数据后，双击运行rda_firmware.exe，按提示生成相应的bin文件
+替换手机文件系统/vendor/firmware中原始bin文件即可
+
+1.重新挂载/vendor
+手机终端输入命令获取超级用户权限：su
+手机终端输入命令重新挂载/vendor：mount -o remount,rw /vendor
+
+2.把生成的bin文件复制到/vendor/firmware目录下
+ 可以先在电脑上把bin文件复制到手机文件夹下面，然后用:cp /sdcard/rda_wland.bin /vendor/firmware 命令把bin文件最终复制到/vendor/firmware目录下
+
+3.手机终端输入重启命令：reboot，或者手动重启手机即可测试新的bin文件

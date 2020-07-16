@@ -1,0 +1,15 @@
+TIMEOUT 5
+ECHO ON
+ABORT '\nBUSY\r'
+ABORT '\nERROR\r'
+ABORT '\nRINGING\r\n\r\nRINGING\r'
+ABORT '\nCOMMAND NO RESPONSE!\r'
+'' AT
+
+OK 'AT+CGDCONT=1,"IP","PARAM_APN","0.0.0.0",0,0'
+OK 'PARAM_DIALNUMBER'
+
+TIMEOUT 60
+SAY "Waiting for connect...\n"
+CONNECT ''
+SAY "Connect Success!\n"

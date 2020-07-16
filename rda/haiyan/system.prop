@@ -1,0 +1,56 @@
+#
+# system.prop
+#
+
+# RIL and telephony related settings 
+rild.libpath=/system/lib/libreference-ril.so
+
+#Wake lock timeout(ms) should be longer than the longest timeout in AT command
+ro.ril.wake_lock_timeout=120000
+
+
+#Allow a system property to override "R.bool.config_showNavigationBar". Used for easy config. See also hasNavigationBar().
+qemu.hw.mainkeys=0
+
+#Set LCD density
+ro.sf.lcd_density=120
+
+#Set to "yes" for low-end smart phone,disable animate
+ro.DontUseAnimate=yes
+
+dalvik.vm.checkjni=false
+
+#speed up apk install
+dalvik.vm.dexopt-flags=v=n,o=n
+
+#Set the emergency num to ecclist
+ril.ecclist = 112,110,119,911,999
+
+#Set to disable the cache for view(reduce memory usage),the valid value is -1,0,1 and default is 1
+ro.DisableViewCache=1
+
+#Set the RecentApp mode,the valid value is 0,1,2
+#1:enable and use default recent app
+#2:enable and use mini recent app(like miui). --reduce momory,no thumbnail--
+#0:disable recent app. --reduce memory--
+ro.recentMode=1
+
+#1 to disable zygote preload class and resource
+ro.zygote.preload.disable=0
+
+#show development option or not
+#0:eng version will show
+#1:always show
+ro.developmentOptionShowAlways=1
+
+#log.redirect-stdio=true
+
+#for ui rotation
+ro.sf.rotation=270
+#for camera rotation
+#ro.sf.hwrotation=270
+
+ro.build.product.lowmem=1
+persist.sys.lowcost=1
+
+ro.multidex.switch=true

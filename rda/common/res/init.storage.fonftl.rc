@@ -1,0 +1,46 @@
+on init
+    mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
+    mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
+    mkdir /mnt/media_rw/udisk 0700 media_rw media_rw
+    mkdir /storage/sdcard0 0700 root root
+    mkdir /storage/sdcard1 0700 root root
+    mkdir /storage/udisk 0700 root root
+
+    # for backwards compatibility
+    symlink /storage/sdcard0 /mnt/sdcard
+    symlink /mnt/sdcard /sdcard
+    symlink /storage/sdcard1 /mnt/sdcard2
+    symlink /mnt/sdcard2 /sdcard2
+    symlink /storage/udisk /mnt/udisk
+    symlink /mnt/udisk /udisk
+
+    export EXTERNAL_STORAGE /storage/sdcard0
+    export SECONDARY_STORAGE /storage/sdcard1
+ 
+on fs
+    mount_all /fstab
+    swapon_all /fstab
+    rmdir  /cache/backup
+    rmdir  /cache/lost+found
+    rmdir  /cache
+    mkdir  /data/.cachelink 0776 system system  
+    symlink  /data/.cachelink  /cache
+    mkdir  /cache/backup 077 root root
+    mkdir /cache/lost+found 0770 root root
+    chown system cache /cache
+
+service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
+    class late_start
+    disabled
+
+service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1 /storage/sdcard1
+    class late_start
+    disabled
+
+service fuse_udisk /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/udisk /storage/udisk
+    class late_start
+    disabled
+
+
+
+    

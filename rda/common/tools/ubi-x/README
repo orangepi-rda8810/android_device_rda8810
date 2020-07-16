@@ -1,0 +1,15 @@
+these are tools for unpacking and re-packing the ubifs image;
+
+usage:
+
+./unpack-ubifsimg.sh system.img/vendor.img
+
+./pack-ubifsimg.sh system/vendor
+
+./cleanup.sh
+
+all these tools need sudo permission
+
+NOTE:
+You should always check the configuration files ubimg.cfg, and
+modify it if you use a different nand flash or partition

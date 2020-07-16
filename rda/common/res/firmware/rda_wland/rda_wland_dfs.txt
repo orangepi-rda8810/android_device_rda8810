@@ -1,0 +1,2 @@
+#define WLAN_BIG_CURRENT_90E
+#define CHINA_VERSION

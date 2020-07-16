@@ -1,0 +1,6 @@
+﻿version			data		版本号
+1.0			2015.02.02				第一版，之前的数据都是通过数组保存在.h或者.c源代码中，我把其中的数组拿出来在按照一定的格式放在rda_combo.bin和rda_wland.bin两个文件当中，bin文件放在/system/etc/firmware下面，模块启动需要数据的时候通过firmware机制获取bin文件中的数据，并写到相应的硬件当中。之前程序通过数组名访问数据(const unsigned int wifi_core_patch_data_32_90_D[][2] =)，现在数组名称没变，只是数组名变成了一个flag标记（#define wifi_core_patch_data_32_90_D 1），程序通过该flag在bin文件中得到所需要的数据。
+
+1.1			2015.02.04	2			增加rda_device_firmware,rda_firmware_data_type数据结构；删除原来的data_flag机制，改为直接在bin文件存放字符串作为数组名的；增加CRC16校验
+1.2			2015.02.05	2			修复宏定义bug
+1.3			2015.02.25	3			rda_combo增加chip_version，程序只在内存中保存当前片子所需数据

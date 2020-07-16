@@ -1,0 +1,9 @@
+# mount point	fstype		device
+system    /system     ubifs    rw                                                   wait
+vendor   /vendor   ubifs    ro                                                   wait
+userdata   /data       ubifs    rw,nosuid,nodev                                      wait
+/dev/block/mmcblk0p1    /sdcard   vfat    rw   wait
+bootloader /bootloader	mtd		bootloader   wait
+boot		/boot mtd		boot   wait
+recovery	/recovery mtd		recovery   wait
+modem		/modem mtd		modem   wait
